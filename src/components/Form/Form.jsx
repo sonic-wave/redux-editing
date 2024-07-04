@@ -9,8 +9,12 @@ export const Form = ({ newsId }) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const itemId = editItemId || Date.now();
-        dispatch(addItem({id: itemId, textValue: userTextValue, numberValue: userNumberValue}));
+        const itemId = editItemId || Date.now(); 
+        if (userTextValue && userNumberValue) {
+            dispatch(addItem({id: itemId, textValue: userTextValue, numberValue: userNumberValue}));
+        } else {
+            alert('Введите значения перед отправкой формы');
+        }
     }
 
     return (
@@ -18,7 +22,6 @@ export const Form = ({ newsId }) => {
             <div className='form-container'>
                 <input
                     type="text"
-                    required
                     value={userTextValue}
                     onChange={(e) => {
                         dispatch({
@@ -29,7 +32,6 @@ export const Form = ({ newsId }) => {
                 />
                 <input
                     type="number"
-                    required
                     value={userNumberValue}
                     onChange={(e) => {
                         dispatch({
@@ -39,7 +41,7 @@ export const Form = ({ newsId }) => {
                     }}
                 />
                 <button type='submit'>Save</button>
-                <button onClick={() => {
+                <button type='button' onClick={() => {
                     dispatch({
                     type: SET_USER_TEXT_VALUE,
                     payload: '',
